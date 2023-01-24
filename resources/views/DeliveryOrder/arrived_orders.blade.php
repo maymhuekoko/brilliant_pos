@@ -17,7 +17,7 @@
 @section('content')
 <section id="plan-features">
     <div class="row ml-3 mt-4">
-        
+
             <div class="col-md-6">
                         <div class="row">
                             <div class="col-md-3">
@@ -37,30 +37,30 @@
 
 
                     </div>
-           
-        
+
+
             <div class="row mt-2">
             <div class="col-md-2">
                 <label class="control-label font-weight-bold">@lang('lang.from')</label>
                 <input type="date" name="from" id="from_Date" class="form-control" value="{{ $start_date }}" required>
             </div>
-            
+
             <div class="col-md-2">
                 <label class="control-label font-weight-bold">@lang('lang.to')</label>
                 <input type="date" name="from" id="to_Date" class="form-control" value="{{ $current_Date }}" required>
             </div>
-            
+
             <div class="col-md-2 m-t-30">
-                <select class="form-control" id="mkt_staffs" onchange="showRelatedFbPages(this.value)">
+                <select class="form-control" id="mkt_staffs">
                     <option value="0">All</option>
                     @foreach ($mkt_staffs as $mkt_staff)
                         <option value="{{$mkt_staff->id}}">{{ $mkt_staff->name }}</option>
                     @endforeach
                 </select>
             </div>
-            
+
                 <div class="col-md-2 m-t-30">
-                    <select class="form-control" id="fb_pages">
+                    <select class="form-control select" id="fb_pages">
                         <option value="0">All</option>
                         @foreach ($fb_pages as $fb_page)
                             <option value="{{$fb_page->id}}">{{ $fb_page->name }}</option>
@@ -73,12 +73,12 @@
                         <option value="0">Instock Order</option>
                     </select>
                 </div>
-            
+
                 <div class="col-md-1 m-t-30">
                     <button class="btn btn-info px-4" id="search_orders">Search</button>
                 </div>
             </div>
-            
+
         <div class="col-md-2 m-t-30">
         <button class="btn btn-success" id="itemarrived">Arrived</button>
         </div>
@@ -112,19 +112,19 @@
                             <div class="form-group row">
                                 <label class="control-label text-right col-md-3 text-black">Supplier Name</label>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" id="supplier_name" name="supplier_name"> 
+                                    <input type="text" class="form-control" id="supplier_name" name="supplier_name">
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label class="control-label text-right col-md-3 text-black">Total Price</label>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" name="pur_item_total" id="pur_item_total"> 
+                                    <input type="text" class="form-control" name="pur_item_total" id="pur_item_total">
                                 </div>
                             </div>
 
                             <input type="submit" name="btnsubmit" class="btnsubmit float-right btn btn-primary" value="@lang('lang.save')">
-                        </form>           
+                        </form>
                     </div>
                 </div>
             </div>
@@ -158,8 +158,8 @@
                                     <?php
                                         $i = 1;
                                     ?>
-                                   @foreach($voucher_lists as $voucher) 
-                           
+                                   @foreach($voucher_lists as $voucher)
+
                                     <tr>
                                         <td>{{$i++}}</td>
                                         <td>{{$voucher->voucher_code}}</td>
@@ -172,17 +172,17 @@
                                         <td>
                                                 @forelse ($voucher->items as $item)
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" 
-                                                    value="{{$voucher->id}}-{{$item->id}}-{{$item->pivot->quantity}}" 
-                                                    id="checkitem{{$voucher->id}}{{$item->id}}{{$item->pivot->quantity}}" 
-                                                    
+                                                    <input class="form-check-input" type="checkbox"
+                                                    value="{{$voucher->id}}-{{$item->id}}-{{$item->pivot->quantity}}"
+                                                    id="checkitem{{$voucher->id}}{{$item->id}}{{$item->pivot->quantity}}"
+
                                                         @if ($item->pivot->status==2)    {{--arrived --}}
                                                          disabled
                                                         @elseif ($item->pivot->status==5) {{--purchasing --}}
                                                         disabled
                                                         @endif
                                                     >
-                                                    
+
                                                     <label class="form-check-label font14
                                                         @if ($item->pivot->status==2)      {{--arrived --}}
                                                             text-success
@@ -191,7 +191,7 @@
                                                         @elseif($item->pivot->status == 5)    {{--out of stock --}}
                                                             text-danger
                                                         @endif
-                                                    " 
+                                                    "
                                                     for="checkitem{{$voucher->id}}{{$item->id}}{{$item->pivot->quantity}}">
                                                       {{$item->item_name}} ({{$item->pivot->status}})
                                                       -{{$item->pivot->remark}}
@@ -199,7 +199,7 @@
                                                     </label>
                                                   </div>
                                                 @empty
-                                                    
+
                                                 @endforelse
                                         </td>
                                         <td>{{$item->sku_code}}</td>
@@ -234,11 +234,16 @@
 //             "info":     false
 
 //     });
-        
+
     // $('#slimtest2').slimScroll({
     //     color: '#00f',
     //     height: '600px'
     // });
+
+    $(".select").select2({
+                placeholder: "ရှာရန်",
+        });
+        
     $('#itemarrived').click(function(){
         var arr = [];
         $('input.form-check-input:checkbox:checked').each(function () {
@@ -269,7 +274,7 @@
             $('#arrived_item_ids').val(JSON.stringify(arr));
             $('#arrived_items').submit();
             // $('#itemOutofstockModal').modal('show');
-        
+
         }
     })
     $('#itemOutofstock').click(function(){
@@ -302,7 +307,7 @@
             $('#outofstock_item_ids').val(JSON.stringify(arr));
             $('#outofstock_items').submit();
             // $('#itemOutofstockModal').modal('show');
-        
+
         }
     })
     $('#search_orders').click(function(){
@@ -311,7 +316,7 @@
         // let order_type = $('#order_type').val();
         // let url = `/arrived-orders/${current_Date}/${fb_page}/${order_type}`;
         // window.location.href= url;
-        
+
         var order_type = $('#order_type').val();
         var fb_page = $('#fb_pages').val();
         var mkt_staff = $('#mkt_staffs').val();
@@ -346,15 +351,15 @@
                         if(voucher){
                         $.each(voucher.items, function(j, item) {
                             // 0-Not Purchase,1-purchasing, 2 - arrived,3- instock,4 -packed, 5- Out of stock
-                            
-                            
+
+
                                 if (item.pivot.status == 2) {
                                 var checkdisable = 'disabled';
                                 } else if (item.pivot.status == 5) {
                                     var checkdisable = 'disabled';
                                 }
-                            
-                        
+
+
                             console.log(checkdisable);
                             if (item.pivot.status == 1) {
                                 var check_lable_color = 'text-warning';
@@ -366,13 +371,13 @@
 
                             itemhtml += `
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="${voucher.id}-${item.id}-${item.pivot.quantity}" id="checkitem${voucher.id}${item.id}${item.pivot.quantity}" 
+                                <input class="form-check-input" type="checkbox" value="${voucher.id}-${item.id}-${item.pivot.quantity}" id="checkitem${voucher.id}${item.id}${item.pivot.quantity}"
                                 ${checkdisable}
                                 >
-                                                
+
                                 <label style="margin-bottom: 1rem" class="form-check-label font14
                                     ${check_lable_color}
-                                " 
+                                "
                                 for="checkitem${voucher.id}${item.id}${item.pivot.quantity}" title="${item.sku_code}">
                                     ${item.item_name}-${item.pivot.remark}
                                     (${item.pivot.quantity})
@@ -383,7 +388,7 @@
                         <p>${item.sku_code}</p>
                         `;
                         })
-                       
+
                         var url1 = '{{ route('getVoucherDetails', ':voucher_id') }}';
 
                         url1 = url1.replace(':voucher_id', voucher.id);
@@ -398,8 +403,8 @@
                                     <td>
                                     ` +
                             itemhtml +
-                            ` 
-                                                
+                            `
+
                                     </td>
                                     <td>
                                         ` +
@@ -408,7 +413,7 @@
                                     </td>
                                     <td class="text-center"><a href="${url1}" class="btn btn-sm btn-outline-info">Details</a>
                                     </td>
-                                
+
                     </tr>
                     `;
 
@@ -416,7 +421,7 @@
                         $('#item_list').html(html);
                         }
                     })
-                    
+
                   // $('#item_table').DataTable().clear().draw();
                     $('#item_table').DataTable( {
 
@@ -433,12 +438,12 @@
                     //     text:"Orders Changed!",
                     //     button:false,
                     //     timer:500,
-                    //     icon:"success"  
+                    //     icon:"success"
                     // });
 
                 } else {
                     var html = `
-                    
+
                     <tr>
                         <td colspan="9" class="text-danger text-center">No Data Found</td>
                     </tr>
@@ -446,13 +451,13 @@
                     `;
                     $('#item_list').empty();
                     $('#item_list').html(html);
-                
+
                 }
             },
             });
-        
+
     })
-    
+
     function showRelatedFbPages(value) {
 
             console.log(value);
@@ -475,7 +480,7 @@
                 success: function(data) {
 
                     console.log(data);
-                    
+
                     $('#fb_pages').append($('<option>').text("All").attr('value', 0));
 
                     $.each(data, function(i, value) {
@@ -487,7 +492,7 @@
 
             });
     }
-	
+
 </script>
 
 @endsection

@@ -428,8 +428,11 @@ class OrderController extends Controller
         $voucher_lists =Voucher::where('page_id',$fb_Ids)->whereMonth('order_date',$current_month)->whereYear('order_date',$current_month_year)->where('order_type',1)->orderBy('id','desc')->with('fbpage')->with('items')->whereHas('items',function($item){
             return $item->where('purchase_id','!=',0)->OrwhereIn('status',[2,1,5]);
         })->get();
+        // $voucher_lists = Voucher::where('order_type',1)->take(2)->get();
         $purchase_lists = DB::table('item_purchase')->get();
-        return view('DeliveryOrder.arrived_orders',compact('voucher_lists','purchase_lists','fb_pages','start_date','current_Date','mkt_staffs'));
+        // dd($voucher_lists);
+        // return $voucher_lists;
+                return view('DeliveryOrder.arrived_orders',compact('voucher_lists','purchase_lists','fb_pages','start_date','current_Date','mkt_staffs'));
     }
 
     protected function getCanceledOrders(Request $request){

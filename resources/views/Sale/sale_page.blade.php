@@ -22,7 +22,7 @@
 
     <?php
     $itemss = '<span id="lenn"></span>';
-    
+
     ?>
 
 
@@ -57,7 +57,7 @@
                     <option value="2">In Stock</option>
                     <option value="3">Preorder</option>
                 </select>
-        
+
             </div>
             <div class="col-md-2">
                 <select id="location_flag" class="form-control" style="font-size: 14px">
@@ -72,7 +72,7 @@
                 <select id="page_name" class="form-control" style="font-size: 14px">
                     <option value="">Select Pages</option>
                     @foreach ($fbpages as $fbpage)
-                    <option value="{{$fbpage->id}}">{{$fbpage->name}}</option>                    
+                    <option value="{{$fbpage->id}}">{{$fbpage->name}}</option>
                     @endforeach
                 </select>
             </div>
@@ -296,7 +296,7 @@
                             <input type="number" class="form-control col-7 text-black" value="0" id="credit" readonly>
                             <input type="hidden" id="previous_credit" value="0">
                         </div>
-            
+
                     </div><br> --}}
                     {{-- <div class="row d-none d-sm-none d-md-block d-lg-block">
                         <div class="col-md-7 offset-md-5 pl-0">
@@ -720,11 +720,11 @@
                 $('.now_customer').hide();
                 showmodal();
                 local_customer_lists();
-                
+
                 var voucher_details = localStorage.getItem('voucher_details');
                 //console.log(voucher_details.location_flag);
                if (voucher_details !== null) {
-                    
+
                     var vdetail_obj = JSON.parse(voucher_details);
                     console.log(vdetail_obj.order_type);
                     $('#custname').val(vdetail_obj.customer_name);
@@ -795,7 +795,7 @@
 
                         var currentqty = parseInt(data.stock);
 
-                        
+
 
                         var saleprice = parseInt(data.selling_price);
 
@@ -859,7 +859,7 @@
                                         hasid = true;
 
                                         v.order_qty = parseInt(value) + parseInt(v.order_qty);
-                                        
+
                                         v.each_sub = parseInt(v.selling_price) * parseInt(v.order_qty);
                                         console.log(v.each_sub);
                                     }
@@ -901,7 +901,7 @@
                     $('#with_dis_total').val(sub_total);
 
                             showmodal();
-                            
+
                             $("#qr_code").val("");
                             $("#qr_code").focus();
                         }
@@ -935,7 +935,7 @@
                             <td>${unit.item.item_name}</td>
                             <td id="name_${unit.id}">${unit.unit_name}</td>
                             <td><select class='form-control' id="price_${unit.id}"><option value='${unit.normal_sale_price}'>Normal Sale - ${unit.normal_sale_price}</option><option value='${unit.whole_sale_price}'>Whole Sale - ${unit.whole_sale_price}</option><option value='${unit.order_price}'>Order Sale - ${unit.order_price}</option></select></td>
-                            
+
                             <td><i class="btn btn-primary" onclick="tgPanel(${unit.id})" ><i class="fas fa-plus"></i> Add</i></td>
                       </tr>`;
                         });
@@ -957,17 +957,17 @@
                 var itemname = $(this).find(":selected").data('itemname');
                 var currentqty = $(this).find(":selected").data('currentqty');
                 var saleprice = $(this).find(":selected").data('sellingprice');
-         
+
                 console.log(saleprice);
                 var order_type = $('#order_type').val();
                 if (currentqty == 0 && order_type == 0) {
-                    
+
                     swal({
                         title: "Can't Add",
                         text: "Your Input is higher than Current Quantity!",
                         icon: "info",
                     });
-                    
+
 
                 } else {
 
@@ -1263,7 +1263,7 @@
                 if(order_type==''){
                     console.log("choose order type");
                     swal({
-                            
+
                             title: "Order Type ရွေးပါ.. ",
                             text: "Order Type ရွေးပါ..!",
                             icon: "error",
@@ -1431,7 +1431,7 @@
                     // }
                 }
                 }
-          
+
 
             }
 
@@ -1446,8 +1446,8 @@
                 var customer_information = localStorage.getItem('customer_information');
 
                 var customer_information_obj = JSON.parse(customer_information);
-                
-                
+
+
                 if (mycart) {
 
                     var mycartobj = JSON.parse(mycart);
@@ -1477,22 +1477,22 @@
                             }
 
                             var each_sub_total = v.order_qty * selling_price ?? 0;
-                            // <i class="fa fa-plus-circle btnplus font-18" onclick="plusfive(${id})" id="${id}"></i>  
+                            // <i class="fa fa-plus-circle btnplus font-18" onclick="plusfive(${id})" id="${id}"></i>
                             // <i class="fa fa-minus-circle btnminus font-18   "  onclick="minusfive(${id})" id="${id}"></i>
                             html += `<tr class="text-center">
-                        
+
 
                             <td class="text-black">${count_name}</td>
 
-                            <td class="text-black w-25 m-0 p-0" > 
+                            <td class="text-black w-25 m-0 p-0" >
                                 <input onkeyup="table_edit_price_remark(${v.id},'remark','remark')" type="text" class=" form-control w-100 text-black text-center p-0 mt-1" id="remark${id}" value="${v.remark}" style="border: none;border-color: transparent;">
                             </td>
 
-                            <td class="text-black w-25 m-0 p-0" onkeyup="plus(${id})" id="${id}"> 
+                            <td class="text-black w-25 m-0 p-0" onkeyup="plus(${id})" id="${id}">
                                 <input type="number" class="form-control w-100 text-black text-center p-0 mt-1" name="" id="nowqty${id}" value="${qty}" style="border: none;border-color: transparent;">
                             </td>
 
-                            <td class="text-black w-25 m-0 p-0" data-price="${selling_price}" > 
+                            <td class="text-black w-25 m-0 p-0" data-price="${selling_price}" >
                                 <input onkeyup="table_edit_price_remark(${v.id},${selling_price},'edit_price')" type="number" class=" form-control w-100 text-black text-center p-0 mt-1" id="nowprice${id}" value="${selling_price}" style="border: none;border-color: transparent;">
                             </td>
 
@@ -1934,7 +1934,7 @@
                 <button class="btn btn-warning mx-2" data-pendingvoucherno="${v}"><i class="fas fa-arrow-alt-circle-up"></i> ${cust} ${v}</button>
             <p class="bg-danger text-white deletevoucher rounded" data-pendingvoucherno="${v}">x</p>
             </div>
-            
+
             `;
                     $('.pending-voucher').append(btnpending);
                 })
@@ -2026,7 +2026,7 @@
             <button class="btn btn-warning mx-2" data-pendingvoucherno="${pendingvoucherno}"><i class="fas fa-arrow-alt-circle-up"></i> ${cust} ${pendingvoucherno}</button>
         <p class="bg-danger text-white deletevoucher rounded" data-pendingvoucherno="${pendingvoucherno}">x</p>
         </div>
-        
+
         `;
                         $('.pending-voucher').append(btnpending);
                     } else {
@@ -2064,7 +2064,7 @@
                 <button class="btn btn-warning mx-2" data-pendingvoucherno="${v}"><i class="fas fa-arrow-alt-circle-up"></i> Customer${v}</button>
             <p class="bg-danger text-white deletevoucher rounded" data-pendingvoucherno="${v}">x</p>
             </div>
-            
+
             `;
                         $('.pending-voucher').append(btnpending);
                     })
@@ -2245,6 +2245,8 @@
                         footer: '<a href>Why do I have this issue?</a>'
                     })
                 } else{
+
+
                     $.ajax({
                         type: 'POST',
                         url: '/testVoucher',
@@ -2303,7 +2305,7 @@
                                 <option></option>` + item_html + `
                                 </select>
                                 `;
-                                
+
                                 $('#search_wif_typing').html(main_html);
 
                                 $("#search_wif_typing .select").select2({
@@ -2322,8 +2324,21 @@
 
                         }
                     });
+
+                    clearLocalstorage(right_now_customer);
+                        formReset();
+                        $('#counting_unit_select').empty();
+
+                    swal({
+                            icon: 'success',
+                            title: 'သိမ်းဆည်းပြီး!',
+                            text: 'Voucher သိမ်းဆည်းပြီးပါပြီ!!',
+                            button: false,
+                            timer: 1500,
+                        })
+                    location.reload();
                 }
-                
+
                 //  else {
                 //     //last_row_id
                 //     // alert("out");
@@ -2392,7 +2407,7 @@
                 //         <option></option>` + item_html + `
                 //     </select>
                 //             `;
-                                  
+
                 //                 $('#search_wif_typing').html(main_html);
 
                 //                 $("#search_wif_typing .select").select2({
@@ -2557,7 +2572,7 @@
                                 <option></option>` + item_html + `
                                 </select>
                                 `;
-                                
+
                                 $('#search_wif_typing').html(main_html);
 
                                 $("#search_wif_typing .select").select2({
@@ -2647,7 +2662,7 @@
                                     <option></option>` + item_html + `
                                     </select>
                                     `;
-                                    
+
                                     $('#search_wif_typing').html(main_html);
 
                                     $("#search_wif_typing .select").select2({
@@ -2791,7 +2806,7 @@
                     var remark = $(`#remark${id}`).val();
                     $(`#remark${id}`).focus().val('').val(remark);
                 }
-        
+
             }
 
 
@@ -2837,7 +2852,7 @@
                 var mycart = localStorage.getItem('mycart');
                 var mycartobj = JSON.parse(mycart);
                 //Begin A5 Voucher
-         
+
                 var len = mycartobj.length;
                 var htmlcountitem = "";
                 var j = 1;
@@ -2858,7 +2873,7 @@
 
                             var each_sub_total = value.order_qty * selling_price ?? 0;
 
-                    htmlcountitem += ` 
+                    htmlcountitem += `
                 <tr>
                 <td style="font-size:20px;height: 8px; border: 2px solid black;">${i++ }</td>
                 <td style="font-size:20px;height: 8px; border: 2px solid black;">${value.unit_name}</td>
@@ -2940,13 +2955,13 @@
                         },
 
                         success:function(data){
-                            
+
                             $('#counting_unit_select').empty();
-                            
+
                             var item_html = ``;
-                          
+
                             console.log(data);
-                         
+
                            $.each(data, function(i, item) {
                            item_html += `
                                <option class="text-black" data-unitname="${data[i].item_name}"

@@ -168,12 +168,12 @@ class DeliveryController extends Controller
             $voucher_code =  "VOU-".date('dmY')."-".sprintf("%04s", ($last_voucher->id + 1));
 
         }
-       
+
 
         // $today_date = $date->format('d-m-Y H:i');
         // dd($today_date);
     	return view('Sale.sale_page',compact('voucher_code','salescustomers','adminpass','fItems','warehouses','items','categories','employees','today_date','sub_categories','customers'));
- 
+
     }
     public function storetestVoucher(Request $request)
     {
@@ -188,7 +188,7 @@ class DeliveryController extends Controller
             'orderDate' => 'required',
         ]);
 
-       
+
         if ($validator->fails()) {
 
             return response()->json([
@@ -214,7 +214,7 @@ class DeliveryController extends Controller
             $voucher_code = $request->voucher_code;
         }
 
-        try {
+        // try {
 
         $date = new DateTime('Asia/Yangon');
 
@@ -223,7 +223,7 @@ class DeliveryController extends Controller
         $orderDate = $request->orderDate;
 
         $today_time = $date->format('g:i A');
- 
+
         $items = json_decode($request->item);
 
         $grand = json_decode($request->grand);
@@ -237,12 +237,12 @@ class DeliveryController extends Controller
 
         // $is_mobile = $agent->isMobile();
 
-        if($request->payment_type == 1){ //prepaid full 
+        if($request->payment_type == 1){ //prepaid full
             $prepaid_clear_flash = 1;
         }else{
             $prepaid_clear_flash = 0;
         }
-        
+
         if($request->order_type == 2){
             $order_type = 0;
         }else if($request->order_type == 3){
@@ -253,7 +253,7 @@ class DeliveryController extends Controller
 
         //check reserve_qty not greater than stock
         foreach ($items as $item) {
-                
+
             if($request->order_type==0 || $request->order_type == 2) {// if instock-item to increase reserve_qty
                 $origin_item = Item::find($item->id);
                 $new_reserve_qty = ($origin_item->reserve_qty + $item->order_qty);
@@ -299,7 +299,7 @@ class DeliveryController extends Controller
             $item_status = 0;
         }
             foreach ($items as $item) {
-                
+
                 $voucher->items()->attach($item->id, ['quantity' => $item->order_qty,'price' => $item->selling_price,'status'=> $item_status,'remark' => $item->remark]);
 
             }
@@ -319,14 +319,14 @@ class DeliveryController extends Controller
             'items' =>$items,
         ]);
 
-        } catch (\Exception $e) {
-                
-            return response()->json([
-                'status' => 0,
-                'message'=> 'Order တင်ခြင်း မအောင်မြင်ပါ'
-            ]);
-            
-        }
+        // } catch (\Exception $e) {
+
+        //     return response()->json([
+        //         'status' => 0,
+        //         'message'=> 'Order တင်ခြင်း မအောင်မြင်ပါ'
+        //     ]);
+
+        // }
     }
     public function getItemA5(Request $request)
     {

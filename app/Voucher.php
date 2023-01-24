@@ -41,10 +41,10 @@ class Voucher extends Model
         'status_change_date'
     ];
 
-    // public function counting_unit() {       
+    // public function counting_unit() {
     //     return $this->belongsToMany(CountingUnit::class)->withPivot('quantity','price','discount');
     // }
-    public function items() {       
+    public function items() {
         return $this->belongsToMany(Item::class)->withPivot('id','quantity','price','status','remark');
     }
 
@@ -65,9 +65,9 @@ class Voucher extends Model
 	// 	return $this->belongsTo('App\SalesCustomer','sales_customer_id');
 	// }
 
-    public function getCreatedAtAttribute($date) {
-        return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('H:i A');
-    }
+    // public function getCreatedAtAttribute($date) {
+    //     return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('H:i A');
+    // }
     public function getStatusAttribute($status) {
         switch ($status) {
             case '0':
@@ -81,26 +81,26 @@ class Voucher extends Model
                 break;
             case '3':
                 return "Delivered";
-                break;  
+                break;
             case '4':
                 return "Packed";
-                break;                                  
+                break;
             case '5':
                 return "Out of stock";
-                break;    
+                break;
             case '6':
                 return "Return";
-                break; 
+                break;
             case '7':
                 return "Unpacked";
-                break;   
+                break;
         }
     }
     public function getOrderTypeAttribute($status) {
         switch ($status) {
             case '0':
                 return "Instock";
-                break;                         
+                break;
             default:
                 return "PreOrder";
                 break;
@@ -110,7 +110,7 @@ class Voucher extends Model
         switch ($status) {
             case '0':
                 return "not";
-                break;                         
+                break;
             default:
                 return "has";
                 break;
@@ -126,5 +126,5 @@ class Voucher extends Model
     {
         return $this->hasMany(Transaction::class);
     }
-    
+
 }
