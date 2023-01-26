@@ -16,6 +16,7 @@
 
 @section('content')
 <section id="plan-features">
+
     <div class="row ml-3 mt-4">
 
             <div class="col-md-6">
@@ -23,22 +24,40 @@
                             <div class="col-md-3">
                                 <h5 for="font-weight-bold">Date Type</h5>
                             </div>
+                            @if ($radio == 0)
                             <div class="col-md-8">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="0" checked>
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="0" onclick="chkdatatype(0)" checked>
                                     <label class="form-check-label" for="inlineRadio1">Order Date</label>
                                   </div>
                                   <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="1">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="1" onclick="chkdatatype(1)">
                                     <label class="form-check-label" for="inlineRadio2">Status Change Date</label>
                                   </div>
                             </div>
-                        </div>
+                            @endif
+                            @if ($radio == 1)
+                            <div class="col-md-8">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="0" onclick="chkdatatype(0)">
+                                    <label class="form-check-label" for="inlineRadio1">Order Date</label>
+                                  </div>
+                                  <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="1" onclick="chkdatatype(1)"  checked>
+                                    <label class="form-check-label" for="inlineRadio2">Status Change Date</label>
+                                  </div>
+                            </div>
+                            @endif
 
+
+
+                        </div>
 
                     </div>
 
-
+            <form action="{{route('arrivedOrderLists')}}" method="POST">
+                @csrf
+                <input type="hidden" id="data_types" name="data_type" value="{{$radio}}">
             <div class="row mt-2">
             <div class="col-md-2">
                 <label class="control-label font-weight-bold">@lang('lang.from')</label>
@@ -47,11 +66,11 @@
 
             <div class="col-md-2">
                 <label class="control-label font-weight-bold">@lang('lang.to')</label>
-                <input type="date" name="from" id="to_Date" class="form-control" value="{{ $current_Date }}" required>
+                <input type="date" name="to" id="to_Date" class="form-control" value="{{ $current_Date }}" required>
             </div>
 
             <div class="col-md-2 m-t-30">
-                <select class="form-control" id="mkt_staffs">
+                <select class="form-control" name="mk_staff" id="mkt_staffs">
                     <option value="0">All</option>
                     @foreach ($mkt_staffs as $mkt_staff)
                         <option value="{{$mkt_staff->id}}">{{ $mkt_staff->name }}</option>
@@ -60,7 +79,7 @@
             </div>
 
                 <div class="col-md-2 m-t-30">
-                    <select class="form-control select" id="fb_pages">
+                    <select class="form-control select" name="fb_page" id="fb_pages">
                         <option value="0">All</option>
                         @foreach ($fb_pages as $fb_page)
                             <option value="{{$fb_page->id}}">{{ $fb_page->name }}</option>
@@ -68,7 +87,7 @@
                     </select>
                 </div>
                 <div class="col-md-2 m-t-30">
-                    <select name="order_type" class="form-control" id="order_type">
+                    <select name="order_type" class="form-control" name="type_order" id="order_type">
                         <option value="1">Pre Order</option>
                         <option value="0">Instock Order</option>
                     </select>
@@ -78,6 +97,7 @@
                     <button class="btn btn-info px-4" id="search_orders">Search</button>
                 </div>
             </div>
+        </form>
 
         <div class="col-md-2 m-t-30">
         <button class="btn btn-success" id="itemarrived">Arrived</button>
@@ -130,6 +150,7 @@
             </div>
         </div>
     </div>
+
     <br/>
 
     <div class="container">
@@ -243,7 +264,7 @@
     $(".select").select2({
                 placeholder: "ရှာရန်",
         });
-        
+
     $('#itemarrived').click(function(){
         var arr = [];
         $('input.form-check-input:checkbox:checked').each(function () {
@@ -277,6 +298,7 @@
 
         }
     })
+
     $('#itemOutofstock').click(function(){
         var arr = [];
         $('input.form-check-input:checkbox:checked').each(function () {
@@ -457,6 +479,10 @@
             });
 
     })
+
+    function chkdatatype(val){
+        $('#data_types').val(val);
+    }
 
     function showRelatedFbPages(value) {
 

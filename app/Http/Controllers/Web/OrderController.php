@@ -432,7 +432,8 @@ class OrderController extends Controller
         $purchase_lists = DB::table('item_purchase')->get();
         // dd($voucher_lists);
         // return $voucher_lists;
-                return view('DeliveryOrder.arrived_orders',compact('voucher_lists','purchase_lists','fb_pages','start_date','current_Date','mkt_staffs'));
+        $radio = 0;
+        return view('DeliveryOrder.arrived_orders',compact('voucher_lists','purchase_lists','fb_pages','start_date','current_Date','mkt_staffs','radio'));
     }
 
     protected function getCanceledOrders(Request $request){
@@ -523,6 +524,7 @@ class OrderController extends Controller
 
 
     protected function arrivedItems(Request $request){
+        // dd($request->all());
         $validator = Validator::make($request->all(), [
             'arrived_item_ids' => 'required',
         ]);
@@ -704,7 +706,8 @@ class OrderController extends Controller
 
         $deliveries = Delivery::all();
         $purchase_lists = DB::table('item_purchase')->get();
-        return view('DeliveryOrder.pending_orders',compact('voucher_lists','purchase_lists','deliveries','current_Date','start_date','fb_pages','mkt_staffs'));
+        $radio = 0;
+        return view('DeliveryOrder.pending_orders',compact('voucher_lists','purchase_lists','deliveries','current_Date','start_date','fb_pages','mkt_staffs','radio'));
     }
     public function getOrders(Request $request)
     {
@@ -724,6 +727,7 @@ class OrderController extends Controller
             }else{
                 $fb_Ids = array($request->fb_page);
             }
+            $fb_pages = $request->session()->get('user')->employee->fbpages;
         }
         else{
             if($request->mkt_staff == 0 && $request->fb_page == 0){   //all
@@ -735,6 +739,7 @@ class OrderController extends Controller
             }else{
                 $fb_Ids = array($request->fb_page);
             }
+            $fb_pages =Fbpage::all();
 
         }
 
@@ -757,10 +762,30 @@ class OrderController extends Controller
             $voucher_lists =Voucher::whereIn('page_id',$fb_Ids)->whereNotNull($date_column)->whereBetween($date_column,[$request->from,$request->to])->where('order_type',$request->instockOrPreorder)->orderBy('id','desc')->whereIn('status',[0,1,2,3,4,5,6,7])->with('fbpage')->with('items')->get();
         }
 
-        return response()->json([
-            'order_lists' => $voucher_lists,
-            'order_type' => $order_type,
-        ]);
+        $cdate = new DateTime('Asia/Yangon');
+
+        $current_month = $cdate->format('m');
+
+        $current_month_year = $cdate->format('Y');
+
+        $start = new Carbon('first day of this month');
+
+        $start_date = $start->format('Y-m-d');
+
+        $current_Date = $cdate->format('Y-m-d');
+
+        $mkt_staffs = User::where('role','Marketing')->get();
+
+        $deliveries = Delivery::all();
+        $purchase_lists = DB::table('item_purchase')->get();
+        $radio = $request->data_type;
+        dd($voucher_lists);
+        return view('DeliveryOrder.pending_orders',compact('voucher_lists','purchase_lists','deliveries','current_Date','start_date','fb_pages','mkt_staffs','radio'));
+
+        // return response()->json([
+        //     'order_lists' => $voucher_lists,
+        //     'order_type' => $order_type,
+        // ]);
     }
 
     protected function getAllOrdersForReview(Request $request){
@@ -1363,6 +1388,9 @@ class OrderController extends Controller
 
     public function arrivedOrderLists(Request $request)
     {
+        // dd($request->all());
+        $radio = $request->data_type;
+        // dd($radio);
         $role= $request->session()->get('user')->role;
         //$role = "Owner";
 
@@ -1397,7 +1425,35 @@ class OrderController extends Controller
             return $item->where('purchase_id','!=',0)->OrwhereIn('status',[1,2,5]);
             })->get();
         }
-        return response()->json($voucher_lists);
+        // return response()->json($voucher_lists);
+
+        $cdate = new DateTime('Asia/Yangon');
+
+        $current_month = $cdate->format('m');
+
+        $current_month_year = $cdate->format('Y');
+
+        $start = new Carbon('first day of this month');
+
+        $start_date = $start->format('Y-m-d');
+
+        $current_Date = $cdate->format('Y-m-d');
+
+        $mkt_staffs = User::where('role','Marketing')->get();
+
+        if($role=="Marketing"){
+            $fb_Ids= $request->session()->get('user')->employee->fbpages()->pluck('id')->toArray();
+            $fb_pages = $request->session()->get('user')->employee->fbpages;
+        }
+        else{   //owner
+            $fb_Ids= Fbpage::get()->pluck('id')->toArray();
+            $fb_pages =Fbpage::all();
+        }
+        // $voucher_lists = Voucher::where('order_type',1)->take(2)->get();
+        $purchase_lists = DB::table('item_purchase')->get();
+        // dd($voucher_lists);
+        // return $voucher_lists;
+        return view('DeliveryOrder.arrived_orders',compact('voucher_lists','purchase_lists','fb_pages','start_date','current_Date','mkt_staffs','radio'));
     }
 
 

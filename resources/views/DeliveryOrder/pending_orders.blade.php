@@ -18,12 +18,13 @@
 <section id="plan-features">
 
     <div class="row ml-4 mt-3">
-        
+
             <div class="col-md-6">
                         <div class="row">
                             <div class="col-md-3">
                                 <h5 for="font-weight-bold">Date Type</h5>
                             </div>
+                            @if ($radio == 0)
                             <div class="col-md-8">
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="0" checked>
@@ -34,34 +35,51 @@
                                     <label class="form-check-label" for="inlineRadio2">Status Change Date</label>
                                   </div>
                             </div>
+                            @endif
+                            @if ($radio == 1)
+                            <div class="col-md-8">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="0">
+                                    <label class="form-check-label" for="inlineRadio1">Order Date</label>
+                                  </div>
+                                  <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="1"  checked>
+                                    <label class="form-check-label" for="inlineRadio2">Status Change Date</label>
+                                  </div>
+                            </div>
+                            @endif
+
                         </div>
 
 
                     </div>
-        
-        
+
+
+            <form action="{{route('get_orders')}}" method="POST">
+                @csrf
+                <input type="hidden" id="data_types" name="data_type" value="{{$radio}}">
             <div class="row mt-2">
                 <div class="col-md-2">
                     <label class="control-label font-weight-bold">@lang('lang.from')</label>
                     <input type="date" name="from" id="from_Date" class="form-control" value="{{ $start_date }}" required>
                 </div>
-                
+
                 <div class="col-md-2">
                     <label class="control-label font-weight-bold">@lang('lang.to')</label>
-                    <input type="date" name="from" id="to_Date" class="form-control" value="{{ $current_Date }}" required>
+                    <input type="date" name="to" id="to_Date" class="form-control" value="{{ $current_Date }}" required>
                 </div>
-                
+
                 <div class="col-md-2 m-t-30">
-                    <select class="form-control" id="mkt_staffs" onchange="showRelatedFbPages(this.value)">
+                    <select class="form-control" name="mk_staff" id="mkt_staffs">
                         <option value="0">All</option>
                         @foreach ($mkt_staffs as $mkt_staff)
                             <option value="{{$mkt_staff->id}}">{{ $mkt_staff->name }}</option>
                         @endforeach
                     </select>
                 </div>
-                
+
                     <div class="col-md-2 m-t-30">
-                        <select class="form-control" id="fb_pages">
+                        <select class="form-control select" name="fb_page" id="fb_pages">
                             <option value="0">All</option>
                             @foreach ($fb_pages as $fb_page)
                                 <option value="{{$fb_page->id}}">{{ $fb_page->name }}</option>
@@ -81,19 +99,19 @@
                     <option value="4">Orders(All)</option>
                 </select>
                 <div class="col-md-1 m-t-30">
-                    <button class="btn btn-info px-4" id="search_orders">Search</button>
+                    <button type="submit" class="btn btn-info px-4" id="search_orders">Search</button>
                 </div>
                 <div class="col-md-1 m-t-30">
                     <button class="btn btn-success ml-4 d-none" id="item_deliver">Deliver</button>
                 </div>
-                
+
                 <div class="col-md-1 m-t-30">
                     <button class="btn btn-danger ml-4 d-none" id="item_cancel">Cancel</button>
                 </div>
             </div>
-   
+          </form>
 
-   
+
 
 
         {{-- arrived form hidden --}}
@@ -116,7 +134,7 @@
                                 <div class="col-md-6">
                                     <select class="form-control" name="delivery_id" id="delivery_id">
                                         @foreach ($deliveries as $delivery)
-                                        <option class="form-control" value="{{$delivery->id}}">{{$delivery->name}}</option>                                            
+                                        <option class="form-control" value="{{$delivery->id}}">{{$delivery->name}}</option>
                                         @endforeach
                                     </select>
                                     {{-- <input type="text" class="form-control" id="delivery_name" name="delivery_name">  --}}
@@ -135,13 +153,13 @@
                             <div class="form-group row">
                                 <label class="control-label text-right col-md-3 text-black">Remark</label>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" name="remark" id="remark"> 
+                                    <input type="text" class="form-control" name="remark" id="remark">
                                 </div>
                             </div>
 
 
                             <input type="submit" name="btnsubmit" id="delivery_sent" class="btnsubmit float-right btn btn-primary" value="@lang('lang.save')">
-                        </form>           
+                        </form>
                     </div>
                 </div>
             </div>
@@ -161,18 +179,18 @@
                             <div class="form-group row">
                                 <label class="control-label text-right col-md-3 text-black">Delivery Name</label>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" name="delivery_name" id="delivery_name"> 
+                                    <input type="text" class="form-control" name="delivery_name" id="delivery_name">
                                 </div>
                             </div>
 
 
                             <input type="submit" name="btnsubmit" id="add_delivery_sent" class="btnsubmit float-right btn btn-primary" value="@lang('lang.save')">
-                        </form>           
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
-        
+
         <div class="modal fade" id="orderCancelModal" role="dialog" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -186,7 +204,7 @@
                     <div class="modal-body">
                         <form class="form-horizontal m-t-20">
                             <input type="hidden" name="canceled_order_ids" id="canceled_order_ids">
-                            
+
 
                             <div class="form-group row">
                                 <label class="control-label text-right col-md-3 text-black">Date</label>
@@ -197,20 +215,20 @@
                             <div class="form-group row">
                                 <label class="control-label text-right col-md-3 text-black">Remark</label>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" name="cancel_remark" id="cancel_remark"> 
+                                    <input type="text" class="form-control" name="cancel_remark" id="cancel_remark">
                                 </div>
                             </div>
-                            
+
                             <div class="form-group row">
                                 <label class="control-label text-right col-md-3 text-black">Admin Code</label>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" name="admin_code" id="admin_code"> 
+                                    <input type="text" class="form-control" name="admin_code" id="admin_code">
                                 </div>
                             </div>
 
 
                             <input type="submit" name="btnsubmit" id="cancel_submit" class="btnsubmit float-right btn btn-primary" value="@lang('lang.save')">
-                        </form>           
+                        </form>
                     </div>
                 </div>
             </div>
@@ -246,12 +264,12 @@
                                     <?php
                                         $i = 1;
                                     ?>
-                                    @foreach($voucher_lists as $voucher) 
-                           
+                                    @foreach($voucher_lists as $voucher)
+
                                     <tr>
                                         <td>{{$i++}}</td>
                                         <td>
-                                      
+
                                         </td>
                                         <td>{{$voucher->voucher_code}}</td>
                                         <td>{{$voucher->customer_name}}</td>
@@ -272,7 +290,7 @@
                                                         ({{$item->pivot->quantity}})
                                                         </p>
                                                 @empty
-                                                    
+
                                                 @endforelse
                                             </td>
                                             <td class="text-center"><a href="{{ route('getVoucherDetails',$voucher->id)}}" class="btn btn-sm btn-outline-info">Details</a>
@@ -307,7 +325,11 @@
             "destroy": true,
 
     });
-    
+
+    $(".select").select2({
+                placeholder: "ရှာရန်",
+        });
+
     // $('#slimtest2').slimScroll({
     //     color: '#00f',
     //     height: '600px'
@@ -316,11 +338,11 @@
     $("#delivery_date").datepicker({
                     format:'yyyy-mm-dd',
                 }).datepicker("setDate",'now');
-    
+
     $("#cancel_date").datepicker({
                     format:'yyyy-mm-dd',
                 }).datepicker("setDate",'now');
-    
+
     $('#item_deliver').click(function(){
         var arr = [];
         $('#order_lists input.form-check-input:checkbox:checked').each(function () {
@@ -351,10 +373,10 @@
             $('#orderDeliveryModal').modal('show');
 
             // $('#delivered_orders').submit();
-        
+
         }
     })
-    
+
     $('#item_cancel').click(function(){
         var arr = [];
         $('#order_lists input.form-check-input:checkbox:checked').each(function () {
@@ -386,11 +408,11 @@
             $('#orderCancelModal').modal('show');
 
             // $('#delivered_orders').submit();
-        
+
         }
     })
-    
-    
+
+
 
     $('#delivery_sent').click(function(e){
         e.preventDefault();
@@ -477,7 +499,7 @@
                                     ${item.item_name}
                                     (${item.pivot.remark})
                                     (${item.pivot.quantity})
-                                </label>                  
+                                </label>
                             `;
                         })
                         var url = '{{route('getVoucherDetails',":voucher_id")}}';
@@ -492,7 +514,7 @@
                                             <td>${voucher.order_date}</td>
                                             <td><span class="badge badge-info font-weight-bold">${voucher.status}</span></td>
                                             <td>
-                                                ${itemhtml}  
+                                                ${itemhtml}
                                             </td>
                                             <td class="text-center"><a href="${url}" class="btn btn-sm btn-outline-info">Details ${incomplete_order_checkbox}</a>
                                             </td>
@@ -507,11 +529,11 @@
 
                 }
 
-                }); 
+                });
         }
-   
+
     })
-    
+
     $('#cancel_submit').click(function(e){
         e.preventDefault();
         var canceled_order_ids = $('#canceled_order_ids').val();
@@ -546,7 +568,7 @@
 
                 success:function(data){
                     $('#canceled_order_ids').val(null);
-                    
+
                     $('#cancel_date').val(null);
                     $('#cancel_remark').val(null);
                     $('#admin_code').val(null);
@@ -614,7 +636,7 @@
                                     ${item.item_name}
                                     (${item.pivot.remark})
                                     (${item.pivot.quantity})
-                                </label>                  
+                                </label>
                             `;
                         })
                         var url = '{{route('getVoucherDetails',":voucher_id")}}';
@@ -630,7 +652,7 @@
                                             <td>${voucher.order_date}</td>
                                             <td><span class="badge badge-info font-weight-bold">${voucher.status}</span></td>
                                             <td>
-                                                ${itemhtml}  
+                                                ${itemhtml}
                                             </td>
                                             <td class="text-center"><a href="${url}" class="btn btn-sm btn-outline-info">Details ${incomplete_order_checkbox}</a>
                                             </td>
@@ -645,11 +667,11 @@
 
                 }
 
-                }); 
+                });
         }
-   
+
     })
-    
+
     $('#search_orders').click(function(){
         // var instockOrPreorder = $('#instockOrPreorder').val();
         // var fb_page = $('#fb_pages').val();
@@ -694,7 +716,7 @@
                         <input class="form-check-input" type="checkbox" value="${voucher.id}" id="checkitem${voucher.id}" enabled>
                         <label class="form-check-label font14" for="checkitem${voucher.id}"></label>
                         `;
-                        
+
                    }
                     var incomplete_order_checkbox = '';
                     if(order_type==3){
@@ -716,7 +738,7 @@
                                 ${item.item_name}
                                 -${item.pivot.remark}
                                 (${item.pivot.quantity})
-                            </label>                  
+                            </label>
                         `;
                     })
                     var url = '{{route('getVoucherDetails',":voucher_id")}}';
@@ -736,7 +758,7 @@
                                         <td>${voucher.order_date}</td>
                                         <td><span class="badge badge-info font-weight-bold">${voucher.status}</span></td>
                                         <td>
-                                            ${itemhtml}  
+                                            ${itemhtml}
                                         </td>
                                         <td class="text-center"><a href="${url}" class="btn btn-sm btn-outline-info">Details</a>
                                         `+
@@ -746,7 +768,7 @@
                                         </td>
                                         </tr>
                     `;
-                    
+
                     $('#order_lists').empty();
                     $('#order_lists').html(html);
 
@@ -755,11 +777,11 @@
                     $('#item_deliver').removeClass('d-none');
                 }else if(order_type == 3){
                     $('#item_cancel').removeClass('d-none');
-                    
+
                 }
                 } else {
                     var html = `
-                    
+
                     <tr>
                         <td colspan="9" class="text-danger text-center">No Data Found</td>
                     </tr>
@@ -767,18 +789,18 @@
                     `;
                     $('#order_lists').empty();
                     $('#order_lists').html(html);
-                
+
                 }
-                
-                
-                
-                
+
+
+
+
                 //$("#item_table").dataTable().fnDestroy();
-                 
+
                     // var table= $("#item_table").DataTable();
 
             }
-        }); 
+        });
     })
     $('#add_delivery').click(function(e){
         e.preventDefault();
@@ -856,7 +878,7 @@
             success: function(data) {
 
                 console.log(data);
-                
+
                 $('#fb_pages').append($('<option>').text("All").attr('value', 0));
 
                 $.each(data, function(i, value) {
