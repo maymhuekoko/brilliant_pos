@@ -27,11 +27,11 @@
                             @if ($radio == 0)
                             <div class="col-md-8">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="0" checked>
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="0" onclick="chkdatatype(0)" checked>
                                     <label class="form-check-label" for="inlineRadio1">Order Date</label>
                                   </div>
                                   <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="1">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="1" onclick="chkdatatype(1)">
                                     <label class="form-check-label" for="inlineRadio2">Status Change Date</label>
                                   </div>
                             </div>
@@ -39,11 +39,11 @@
                             @if ($radio == 1)
                             <div class="col-md-8">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="0">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="0" onclick="chkdatatype(0)">
                                     <label class="form-check-label" for="inlineRadio1">Order Date</label>
                                   </div>
                                   <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="1"  checked>
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="1" onclick="chkdatatype(1)" checked>
                                     <label class="form-check-label" for="inlineRadio2">Status Change Date</label>
                                   </div>
                             </div>
@@ -671,6 +671,11 @@
         }
 
     })
+
+
+    function chkdatatype(val){
+        $('#data_types').val(val);
+    }
 
     $('#search_orders').click(function(){
         // var instockOrPreorder = $('#instockOrPreorder').val();

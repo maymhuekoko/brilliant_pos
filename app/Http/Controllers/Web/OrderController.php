@@ -714,6 +714,7 @@ class OrderController extends Controller
         // 'instockOrPreorder':instockOrPreorder,
         // 'fb_page':fb_page,
         // 'current_Date':current_Date
+        // dd($request->all());
         $order_type = $request->order_type;
         $date_type = $request->date_type;
         $date_column = 'order_date';
@@ -748,18 +749,19 @@ class OrderController extends Controller
         }
 
         if($order_type == 1){     //pending orders
-            $voucher_lists =Voucher::whereIn('page_id',$fb_Ids)->whereNotNull($date_column)->whereBetween($date_column,[$request->from,$request->to])->where('order_type',$request->instockOrPreorder)->orderBy('id','desc')->whereIn('status',[2,4])->with('fbpage')->with('items')->get();
+            $voucher_lists =Voucher::whereIn('page_id',$fb_Ids)->whereNotNull($date_column)->whereBetween($date_column,[$request->from,$request->to])->where('order_type',$order_type)->orderBy('id','desc')->whereIn('status',[2,4])->with('fbpage')->with('items')->get();
+            // dd($voucher_lists);
         }
         elseif($order_type == 2){   // payment-complete
-            $voucher_lists =Voucher::orderBy('id','desc')->whereIn('page_id',$fb_Ids)->whereNotNull($date_column)->whereBetween($date_column,[$request->from,$request->to])->where('order_type',$request->instockOrPreorder)->where('prepaid_clear_flash',0)->whereIn('status',[2,4])->with('fbpage')->with('items')->get();
-            // $voucher_lists =Voucher::where('page_id',$fb_Ids)->whereDate('order_date',$request->current_Date)->where('order_type',$request->instockOrPreorder)->orderBy('id','desc')->where('prepaid_clear_flash',0)->orwhere('payment_type','!=',1)->where('status',[2,4])->with('items')->get();
+            $voucher_lists =Voucher::orderBy('id','desc')->whereIn('page_id',$fb_Ids)->whereNotNull($date_column)->whereBetween($date_column,[$request->from,$request->to])->where('order_type',$order_type)->where('prepaid_clear_flash',0)->whereIn('status',[2,4])->with('fbpage')->with('items')->get();
+            // $voucher_lists =Voucher::where('page_id',$fb_Ids)->whereDate('order_date',$request->current_Date)->where('order_type',$order_type)->orderBy('id','desc')->where('prepaid_clear_flash',0)->orwhere('payment_type','!=',1)->where('status',[2,4])->with('items')->get();
         }
         elseif($order_type == 3){   // payment-incomplete //payment_type-1-prepaid full
-             $voucher_lists =Voucher::orderBy('id','desc')->whereIn('page_id',$fb_Ids)->whereNotNull($date_column)->whereBetween($date_column,[$request->from,$request->to])->where('order_type',$request->instockOrPreorder)->where('prepaid_clear_flash',1)->whereIn('status',[2,4])->with('fbpage')->with('items')->get();
+             $voucher_lists =Voucher::orderBy('id','desc')->whereIn('page_id',$fb_Ids)->whereNotNull($date_column)->whereBetween($date_column,[$request->from,$request->to])->where('order_type',$order_type)->where('prepaid_clear_flash',1)->whereIn('status',[2,4])->with('fbpage')->with('items')->get();
         }
         elseif($order_type == 4){     //all orders
 //0-ordersave,2-arrived ,3-deliver-4-pack,5 -outof stock
-            $voucher_lists =Voucher::whereIn('page_id',$fb_Ids)->whereNotNull($date_column)->whereBetween($date_column,[$request->from,$request->to])->where('order_type',$request->instockOrPreorder)->orderBy('id','desc')->whereIn('status',[0,1,2,3,4,5,6,7])->with('fbpage')->with('items')->get();
+            $voucher_lists =Voucher::whereIn('page_id',$fb_Ids)->whereNotNull($date_column)->whereBetween($date_column,[$request->from,$request->to])->where('order_type',$order_type)->orderBy('id','desc')->whereIn('status',[0,1,2,3,4,5,6,7])->with('fbpage')->with('items')->get();
         }
 
         $cdate = new DateTime('Asia/Yangon');
@@ -779,7 +781,7 @@ class OrderController extends Controller
         $deliveries = Delivery::all();
         $purchase_lists = DB::table('item_purchase')->get();
         $radio = $request->data_type;
-        dd($voucher_lists);
+        // dd($voucher_lists);
         return view('DeliveryOrder.pending_orders',compact('voucher_lists','purchase_lists','deliveries','current_Date','start_date','fb_pages','mkt_staffs','radio'));
 
         // return response()->json([
@@ -1383,7 +1385,33 @@ class OrderController extends Controller
                 $voucher_lists =Voucher::whereIn('id',$cancel_orderids)->where('page_id',$fb_Ids)->where('order_type', $request->order_type)->orderBy('id','desc')->with('fbpage')->with('items')->get();
             }
 
-        return response()->json($voucher_lists);
+            $cdate = new DateTime('Asia/Yangon');
+
+            $current_month = $cdate->format('m');
+
+            $current_month_year = $cdate->format('Y');
+
+            $start = new Carbon('first day of this month');
+
+            $start_date = $start->format('Y-m-d');
+
+            $current_Date = $cdate->format('Y-m-d');
+
+            $mkt_staffs = User::where('role','Marketing')->get();
+
+            if($role=="Marketing"){
+
+                $fb_pages = $request->session()->get('user')->employee->fbpages;
+            }
+            else{   //owner
+              
+                $fb_pages =Fbpage::all();
+            }
+
+            $purchase_lists = DB::table('item_purchase')->get();
+            return view('DeliveryOrder.canceled_orders',compact('voucher_lists','purchase_lists','fb_pages','start_date','current_Date','mkt_staffs'));
+
+        // return response()->json($voucher_lists);
     }
 
     public function arrivedOrderLists(Request $request)
