@@ -77,7 +77,7 @@
             </div>
             <div class="row mb-2">
                 <div class="col-md-6">
-                    Date : {{ $delivery_order->from }} | {{ $delivery_order->to }} 
+                    Date : {{ $delivery_order->from }} | {{ $delivery_order->to }}
                 </div>
                 <div class="col-md-6"><span id="header_receive_amt">
                     Total Receive Amount : {{ $delivery_order->total_collect_amount - $delivery_order->total_delivery_expense }}
@@ -86,19 +86,19 @@
             </div>
         </div>
     </div>
-    
-    
-    
-    
-    
+
+
+
+
+
     <div class="row justify-content-center">
         <div class="col-md-12">
             <ul class="nav nav-pills m-t-30 m-b-30">
-                <li class=" nav-item"> 
-                    <a href="#navpills-1" class="nav-link active" data-toggle="tab" aria-expanded="false">Orders</a> 
+                <li class=" nav-item">
+                    <a href="#navpills-1" class="nav-link active" data-toggle="tab" aria-expanded="false">Orders</a>
                 </li>
-                <li class="nav-item"> 
-                    <a href="#navpills-2" class="nav-link" data-toggle="tab" aria-expanded="false">Return Orders</a> 
+                <li class="nav-item">
+                    <a href="#navpills-2" class="nav-link" data-toggle="tab" aria-expanded="false">Return Orders</a>
                 </li>
             </ul><br/>
             <!-- Begin navpill -->
@@ -151,13 +151,13 @@
                                                             {{ $j++ }}</td>
                                                         <td class="font-weight-normal" style="font-size:15px;">
                                                             {{ $voucher->voucher_code }}</td>
-                                                            
+
                                                         <td class="font-weight-normal" style="font-size:15px;">
                                                             {{ $voucher->customer_name }}</td>
-                                                            
+
                                                         <td class="font-weight-normal" style="font-size:15px;">
                                                             {{ $voucher->fbpage->name }}</td>
-                                                            
+
                                                         <td class="font-weight-normal" style="font-size:15px;">
                                                             {{ $voucher->customer_address }}</td>
                                                         <td class="font-weight-normal" style="font-size:15px;">
@@ -172,7 +172,7 @@
                                                             {{ $voucher->collect_amount - $voucher->delivery_expense }}</td>
                                                         <td class="text-center printableAction ">
                                                             <a href="{{ route('getVoucherDetails',$voucher->id)}}" class="btn btn-sm btn-outline-info">Details</a>
-                                                            <button 
+                                                            <button
                                                             data-deliveredorder="{{$voucher->pivot->deliveredorder_id}}" data-voucher="{{$voucher->id}}" class="btn btn-sm btn-outline-danger returnOrder">Return</button>
 
                                                             {{-- <form action="{{route('orderReturn')}}" method="POST">
@@ -181,7 +181,7 @@
                                                                 <input type="hidden" name="voucher_id" value="{{$voucher->id}}">
                                                                       <button  class="btn btn-sm btn-outline-danger">Return</button>
                                                             </form> --}}
-                                                      
+
                                                         </td>
                                                     </tr>
                                             @endforeach
@@ -214,20 +214,20 @@
                          <img src="{{asset('image/brilliant_logo.png')}}" class="m-l-120 m-b-10" height="150px">
                         </div>
                          <div class="col-md-6 ml-3">
-                            <p class="font-weight-bold mt-2" style="font-size: 28px">Delivery Report</p> 
+                            <p class="font-weight-bold mt-2" style="font-size: 28px">Delivery Report</p>
                         </div>
                         <div class="col-md-6 ml-3">
-                            <p class="mt-2">Delivery Name  :     {{ $delivery_order->delivery }}</p> 
+                            <p class="mt-2">Delivery Name  :     {{ $delivery_order->delivery }}</p>
                         </div>
                         <div class="col-md-6  ml-3">
-                            <p class="">Date  :   {{ $delivery_order->from }} | {{$delivery_order->to}}</p> 
+                            <p class="">Date  :   {{ $delivery_order->from }} | {{$delivery_order->to}}</p>
                         </div>
                         <div class="table-responsive text-black">
                             <table class="table">
                                 <thead>
                                     <tr class="text-center">
                                         <th>No.</th>
-                                        
+
                                         <th>Customer Name</th>
                                         <th>Page Name</th>
                                         <th>Address</th>
@@ -245,8 +245,8 @@
                                     @foreach ($delivery_order_lists as $voucher)
                                         <tr class="text-center">
                                             <td>{{ $j++ }}</td>
-                                            
-                                             
+
+
                                             <td>      {{ $voucher->customer_name }}</td>
                                             <td>      {{ $voucher->fbpage->name }}</td>
                                             <td>   {{ $voucher->customer_address }}</td>
@@ -261,27 +261,27 @@
                             </table>
                         </div>
                         <div class="row offset-3">
-                    
+
                             <div class="col-md-2 ml-3 " >
                             <div class="col-md-2 ml-3 " >
-                                <p class="mt-2" style="font-size: 20px;"><b> Total Delivery Expense :</b>  <span class="payTotal font-weight-bold" style="font-size: 20px;"> {{ $delivery_order->total_delivery_expense }}</span></p> 
+                                <p class="mt-2" style="font-size: 20px;"><b> Total Delivery Expense :</b>  <span class="payTotal font-weight-bold" style="font-size: 20px;"> {{ $delivery_order->total_delivery_expense }}</span></p>
                             </div>
                             <br/>
                             <div class="col-md-2 ml-3 " >
-                                <p class="mt-2" style="font-size: 20px;"><b> Total Collect Amt :</b>  <span class="payTotal font-weight-bold" style="font-size: 20px;"> {{ $delivery_order->total_collect_amount}}</span></p> 
+                                <p class="mt-2" style="font-size: 20px;"><b> Total Collect Amt :</b>  <span class="payTotal font-weight-bold" style="font-size: 20px;"> {{ $delivery_order->total_collect_amount}}</span></p>
                             </div>
                             <br/>
 
                             <div class="col-md-2 ml-3 " >
-                                <p class="mt-2" style="font-size: 20px;"><b> Total Receive Amt :</b>  <span class="payTotal font-weight-bold" style="font-size: 20px;"> {{ $delivery_order->total_collect_amount- $delivery_order->total_delivery_expense}}</span></p> 
+                                <p class="mt-2" style="font-size: 20px;"><b> Total Receive Amt :</b>  <span class="payTotal font-weight-bold" style="font-size: 20px;"> {{ $delivery_order->total_collect_amount- $delivery_order->total_delivery_expense}}</span></p>
                             </div>
                             <br/>
 
                             <div class="col-md-2 ml-3 " >
-                                <p class="mt-2" style="font-size: 20px;"><b>CEO Sign:</b>  </p> 
+                                <p class="mt-2" style="font-size: 20px;"><b>CEO Sign:</b>  </p>
                             </div>
                             </div>
-                            
+
                         </div>
                     </div>
 
@@ -342,10 +342,10 @@
                                                             @endphp
                                                         <td class="text-center printableAction ">
                                                             <a href="{{ route('getVoucherDetails',$voucher->id)}}" class="btn btn-sm btn-outline-info">Details</a>
-                                                            
+
                                         <button data-toggle="modal" data-target="#reDeliveryModal{{$voucher->id}}"
                                                              class="btn btn-sm btn-outline-info">ReDeliver</button>
-                                        
+
                                         <div class="modal fade" id="reDeliveryModal{{$voucher->id}}" role="dialog" aria-hidden="true">
                                             <div class="modal-dialog" role="document">
                                              <div class="modal-content">
@@ -364,7 +364,7 @@
                                                     <div class="col-md-6">
                                                         <select class="form-control" name="delivery_id" id="delivery_id{{$voucher->id}}">
                                          @foreach ($deliveries as $delivery)
-                                                            <option class="form-control" value="{{$delivery->id}}">{{$delivery->name}}</option>                                            
+                                                            <option class="form-control" value="{{$delivery->id}}">{{$delivery->name}}</option>
                                         @endforeach
                                                         </select>
                                     {{-- <input type="text" class="form-control" id="delivery_name" name="delivery_name">  --}}
@@ -380,11 +380,11 @@
                                                             <input type="date" class="form-control font14 text-black" id="delivery_date{{$voucher->id}}" name="delivery_date">
                                                         </div>
                                                     </div>
-                            
+
                                                     <div class="form-group row">
                                                         <label class="control-label text-right col-md-3 text-black"style="font-size:15px;">Remark</label>
                                                         <div class="col-md-6">
-                                                            <input type="text" class="form-control" name="remark" id="remark{{$voucher->id}}"> 
+                                                            <input type="text" class="form-control" name="remark" id="remark{{$voucher->id}}">
                                                         </div>
                                                     </div>
 
@@ -392,19 +392,19 @@
                                                     <button class="btn btn-sm btn-outline-info reDeliver" type="submit" data-voucherid="{{$voucher->id}}">Redeliver</button>
 
                                                     <!--<input type="submit" name="btnsubmit" id="delivery_sent" class="btnsubmit float-right btn btn-primary" value="@lang('lang.save')" data-voucherid="{{$voucher->id}}">-->
-                                                </form>           
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                        
-                                        
-                                             
-                                                             
+
+
+
+
                                                      {{--       <button data-toggle="modal" data-target="#return_items_modal{{$voucher->id}}"
                                                              class="btn btn-sm btn-outline-danger">Add to stock</button>--}}
-                                                             
-                                                             
+
+
 
 
                                                              {{-- Return Items Modal --}}
@@ -417,7 +417,7 @@
                                                                                 <span aria-hidden="true">&times;</span>
                                                                               </button>
                                                                         </div>
-                                                        
+
                                                                         <div class="modal-body">
                                                                             <div class="row">
                                                                                 <div class="col-md-1 offset-md-7">
@@ -428,7 +428,7 @@
                                                                             @else
                                                                             <button id="orderToStock" data-voucherid="{{$voucher->id}}"  class="btn btn-success btn-sm">Order To Stock</button>
                                                                             @endif --}}
-                                                                            
+
                                                                             </div>
                                                                             <table class="table table-hover">
                                                                                 <thead>
@@ -450,10 +450,10 @@
                                                                                         <tr>
                                                                                         <td class="font-weight-normal pt-3" style="font-size:15px;">
                                                                                             {{ $i++ }}</td>
-                              
+
                                                                                             <td class="font-weight-normal" style="font-size:15px;">
                                                                                             <input name="item_code" id="item_code{{$item->id}}" type="text" class="form-control" value="{{$item->item_code }}">
-                                                                                            </td>                                
+                                                                                            </td>
                                                                                         <td class="font-weight-normal" style="font-size:15px;"><input name="sku_code" id="sku_code{{$item->id}}" type="text" class="form-control" value="{{$item->sku_code }}">
                                                                                         </td>
                                                                                         <td class="font-weight-normal pt-3" style="font-size:15px;">{{ $item->pivot->quantity }}</td>
@@ -462,22 +462,22 @@
                                                                                         <button class="btn btn-sm btn-outline-info itemToStock" type="submit" data-itemid="{{$item->id}}" data-quantity="{{$item->pivot->quantity}}" data-voucherid="{{$voucher->id}}">Item to stock</button>
                                                                                     @else
                                                                                     <button disabled class="btn btn-sm btn-outline-info itemToStock" data-itemid="{{$item->id}}" data-quantity="{{$item->pivot->quantity}}" data-voucherid="{{$voucher->id}}">Item to stock</button>
-                                                                                    @endif                                                                               
+                                                                                    @endif
                                                                                         </tr>
                                                                                     </form>
-                                                                                  
+
                                                                                     @endforeach
-                                                                                  
+
                                                                                 </tbody>
                                                                             </table>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            
+
                                         <button data-toggle="modal" data-target="#cancel_order_modal{{$voucher->id}}"
                                                              class="btn btn-sm btn-outline-danger" >Cancel Order</button>
-                                        
+
                                         <div class="modal fade" id="cancel_order_modal{{$voucher->id}}" role="dialog" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -492,11 +492,11 @@
                         <form class="form-horizontal m-t-20" action="{{route('canceled_orders')}}" method="POST">
                             @csrf
                             <input type="hidden" name="type" value=2>
-                            
+
                             <input type="hidden" name="canceled_order_ids" id="canceled_order_id" value={{$voucher->id}}>
-                            
+
                             <input type="hidden" name="delivery_order_id" id="delivery_order_id" value="{{$voucher->pivot->deliveredorder_id}}">
-                            
+
 
                             <div class="form-group row">
                                 <label class="control-label text-right col-md-3 text-black" style="font-size:15px;">Date</label>
@@ -507,34 +507,34 @@
                             <div class="form-group row">
                                 <label class="control-label text-right col-md-3 text-black" style="font-size:15px;">Remark</label>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" name="cancelRemark" id="cancel_remark"> 
+                                    <input type="text" class="form-control" name="cancelRemark" id="cancel_remark">
                                 </div>
                             </div>
-                            
+
                             <div class="form-group row">
                                 <label class="control-label text-right col-md-3 text-black" style="font-size:15px;">Admin Code</label>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" name="adminCode" id="admin_code"> 
+                                    <input type="text" class="form-control" name="adminCode" id="admin_code">
                                 </div>
                             </div>
 
                             <div class="form-group row offset-4" >
                             <input type="submit" name="btnsubmit" id="cancel_submit" class="btnsubmit float-right btn btn-primary" value="@lang('lang.save')">
-                            
+
                             </div>
-                        </form>           
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
-                                                            
-                                        
-                                        
-                                        
+
+
+
+
                                                         </td>
-                                                   
+
                                                     </tr>
-                                                  
+
                                             @endforeach
                                                     <!--<tr class="">-->
                                                     <!--    <td colspan="7" class="text-right font-weight-normal" style="font-size: 15px">Total </td>-->
@@ -565,20 +565,20 @@
                          <img src="{{asset('image/brilliant_logo.png')}}" class="m-l-120 m-b-10" height="150px">
                         </div>
                          <div class="col-md-6 ml-3">
-                            <p class="font-weight-bold mt-2" style="font-size: 28px">Delivery Reurn Report</p> 
+                            <p class="font-weight-bold mt-2" style="font-size: 28px">Delivery Reurn Report</p>
                         </div>
                         <div class="col-md-6 ml-3">
-                            <p class="mt-2">Delivery Name  :     {{ $delivery_order->delivery }}</p> 
+                            <p class="mt-2">Delivery Name  :     {{ $delivery_order->delivery }}</p>
                         </div>
                         <div class="col-md-6  ml-3">
-                            <p class="">Date  :   {{ $delivery_order->from }} | {{$delivery_order->to}}</p> 
+                            <p class="">Date  :   {{ $delivery_order->from }} | {{$delivery_order->to}}</p>
                         </div>
                         <div class="table-responsive text-black">
                             <table class="table">
                                 <thead>
                                     <tr class="text-center">
                                         <th>No.</th>
-                                        
+
                                         <th>Customer Name</th>
                                         <th>Page Name</th>
                                         <th>Address</th>
@@ -596,7 +596,7 @@
                                     @foreach ($delivery_return_lists as $voucher)
                                         <tr class="text-center">
                                             <td>{{ $j++ }}</td>
-                                            
+
                                             <td>      {{ $voucher->customer_name }}</td>
                                             <td>      {{ $voucher->fbpage->name }}</td>
                                             <td>   {{ $voucher->customer_address }}</td>
@@ -611,34 +611,34 @@
                             </table>
                         </div>
                         <div class="row offset-3">
-                    
+
                             <div class="col-md-2 ml-3 " >
                                 <div class="col-md-2 ml-3 " >
-                                <p class="mt-2" style="font-size: 20px;"><b> Total Delivery Expense :</b>  <span class="payTotal font-weight-bold" style="font-size: 20px;"> {{ $return_order->total_delivery_expense }}</span></p> 
+                                <p class="mt-2" style="font-size: 20px;"><b> Total Delivery Expense :</b>  <span class="payTotal font-weight-bold" style="font-size: 20px;"> {{ $return_order->total_delivery_expense }}</span></p>
                             </div>
                             <br/>
                             <div class="col-md-2 ml-3 " >
-                                <p class="mt-2" style="font-size: 20px;"><b> Total Collect Amt :</b>  <span class="payTotal font-weight-bold" style="font-size: 20px;"> {{ $return_order->total_collect_amount }}</span></p> 
+                                <p class="mt-2" style="font-size: 20px;"><b> Total Collect Amt :</b>  <span class="payTotal font-weight-bold" style="font-size: 20px;"> {{ $return_order->total_collect_amount }}</span></p>
                             </div>
                             <br/>
 
                             <div class="col-md-2 ml-3 " >
-                                <p class="mt-2" style="font-size: 20px;"><b> Total Receive Amt :</b>  <span class="payTotal font-weight-bold" style="font-size: 20px;"> {{ $return_order->total_collect_amount- $return_order->total_delivery_expense }}</span></p> 
+                                <p class="mt-2" style="font-size: 20px;"><b> Total Receive Amt :</b>  <span class="payTotal font-weight-bold" style="font-size: 20px;"> {{ $return_order->total_collect_amount- $return_order->total_delivery_expense }}</span></p>
                             </div>
-                            <br/> 
+                            <br/>
 
                             <div class="col-md-2 ml-3 " >
-                                <p class="mt-2" style="font-size: 20px;"><b>CEO Sign:</b>  </p> 
+                                <p class="mt-2" style="font-size: 20px;"><b>CEO Sign:</b>  </p>
                             </div>
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>
             </div><!-- all navpill end -->
         </div><!-- all col-md-8 end -->
     </div>
-    
+
     <div class="modal fade" id="return_order_modal" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -656,27 +656,27 @@
                         <div class="form-group row">
                             <label class="control-label text-black  col-md-6">Date</label>
                             <div class="col-md-6">
-                                <input type="date" class="form-control" id="return_date"> 
-                                
+                                <input type="date" class="form-control" id="return_date">
+
                             </div>
                         </div>
 
                         <div class="form-group row">
                             <label class="control-label text-black  col-md-6">Remark</label>
                             <div class="col-md-6">
-                                <input type="text" class="form-control" id="return_remark"> 
-                                
+                                <input type="text" class="form-control" id="return_remark">
+
                             </div>
                         </div>
 
                         <input type="button" id="save_return_order" name="btnsubmit" class="btnsubmit float-right btn btn-primary" value="@lang('lang.save')">
-                    </form>           
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 
-   
+
 
     <div class="row">
         <div class="col-md-12 mb-3 text-center">
@@ -694,9 +694,9 @@
 
     <script>
         $(document).ready(function() {
-            
-            
-            
+
+
+
             $("#print").click(function() {
                 var mode = 'iframe'; //popup
                 var close = mode == "popup";
@@ -710,7 +710,7 @@
                 setInterval(() => {
                 $('.tab-pane.active div.printableArea').addClass('d-none');
                 }, 3000);
-                
+
                 //$('#header_collect_amt').text($('#table_collect_amt').val());
 
             });
@@ -763,6 +763,14 @@
                             }, 800);
                         }
                 });
+                           swal({
+                            title: "Success!",
+                            text : "Successfully return the order!",
+                            icon : "info",
+                            });
+                            setTimeout(() => {
+                            history.go(0);
+                            }, 800);
                 }else{
 
                     $("#return_order_modal").modal('hide');
@@ -772,10 +780,10 @@
                     icon : "error",
                     });
                 }
-              
+
 
                 })
-       
+
                 $('.itemToStock').click(function(e){
                     e.preventDefault();
                     let item_id = $(this).data('itemid');
@@ -799,8 +807,8 @@
                             });
                             setTimeout(() => {
                                 history.go(0);
-                            }, 800);
-                            
+                            }, 500);
+
                         }
                     });
                 })
@@ -820,7 +828,7 @@
                         },
 
                         success:function(data){
-                            
+
                             swal({
                                 title: "Success!",
                                 text : "Successfully Add To Stock!",
@@ -829,11 +837,11 @@
                             setTimeout(() => {
                                 history.go(0);
                             }, 800);
-                            
+
                         }
                     });
                 })
-                
+
                 $('.reDeliver').click(function(e){
         e.preventDefault();
         let order_id = $(this).data('voucherid');
@@ -872,7 +880,7 @@
                 },
 
                 success:function(data){
-                   
+
                     $(reDeliveryModalName).modal('hide');
 
                     // $('#item_deliver').addClass('d-none');
@@ -891,18 +899,18 @@
                             text : data.message,
                             button: true,
                         })
-                        
+
                     }
 
                 }
 
-            }); 
-        }
-   
-        })
-       
             });
-            
+        }
+
+        })
+
+            });
+
             //$('#cancel_submit').click(function(e){
         //e.preventDefault();
         function cancelOrder(){
@@ -988,12 +996,12 @@
 
                 }
 
-                }); 
+                });
          }
    }
     //});
-            
-            
+
+
         function ApproveLeave($deliverorder_id,$voucher_id){
                 console.log($deliverorder_id,$voucher_id);
             }
